@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackeo del Sistema</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #1e1e1e;
+            color: #00ff00;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #content-wrapper {
+            width: 100%;
+            max-width: 900px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #commands-info {
+            background-color: black;
+            padding: 15px;
+            color: #00ff00;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        #commands-info h2, #commands-info h3 {
+            margin-top: 0;
+        }
+
+        #commands-info ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #commands-info ul li {
+            margin: 5px 0;
+        }
+
+        #terminal {
+            background-color: black;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+        }
+
+        #output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            background-color: black;
+            color: #00ff00;
+            border: none;
+            font-size: 1.2rem;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="content-wrapper">
+        <div id="commands-info">
+            <h2>Comandos Disponibles</h2>
+            <h3>Directrices Básicas</h3>
+            <ul>
+                <li><strong>Reto</strong>: Bienvenido al laberinto digital. Tu misión: encontrar la clave secreta escondida entre los archivos. Cada comando es una llave, cada directorio un enigma, y cada archivo una pista... o una trampa. ¿Podrás descifrar el sistema?.</li>
+                <li><strong>El Camino a la Victoria</strong>:  
+                    Tu objetivo es encontrar el archivo <strong>clave_secreta.txt</strong>.
+                    La clave está escondida en un directorio inesperado.
+                    Su contenido te llevará a un enlace que desbloquea el final del juego.
+                    Cuidado con los archivos trampa y las pistas falsas. No todo lo que brilla es oro.
+                    Si resuelves con éxito el reto, L33tL1ght te otorgará un item valioso.
+                </li>
+                <li><strong>COMANDOS DISPONIBLES </strong>:</li>
+                <li><strong>dir</strong>: Muestra el contenido del directorio actual.</li>
+                <li><strong>cd <em>nombre_directorio</em></strong>: Cambia al directorio especificado.</li>
+                <li><strong>cd \</strong>: Regresa a la raíz del sistema (directorio principal).</li>
+                <li><strong>type <em>archivo</em></strong>: Muestra el contenido de un archivo.</li>
+                <li><strong>cls</strong>: Limpia la pantalla (restablece la vista de la terminal).</li>
+            </ul>
+        </div>
+
+        <div id="terminal">
+            <div id="output"></div>
+            <form id="commandForm">
+               <input type="text" id="commandInput" placeholder="Introduce un comando..." autofocus autocomplete="off">
+
+            </form>
+        </div>
+    </div>
+
+<script>
+    let currentPath = ["L33tL1ght"];
+    let gameWon = false;
+
+    const directories = {
+        "L33tL1ght": {
+            "Sistema": {
+                "fichero_secreto.txt": "¡Este es el archivo secreto! Demasiado Fácil, no Ch1ckc0d3r?",
+                "comando_de_administrador.bat": "Nada por aquí, sigue tu búsqueda.",
+                "level2": {
+                    "restricted_area.txt": "No deberías estar aquí. Tu misión finaliza en otro nivel."
+                },
+                "nodo_oculto.txt": "¡Este es el archivo oculto! Felicidades por encontrarlo, pero no es lo que buscas, prosigue tu recorrido."
+            },
+            "usuarios": {
+                "usuario1": {
+                    "cypher.txt": "Hola, este es un documento importante para la misión. XV533@x??33a007254687PjU/44    ",
+                    "clave_secreta.txt": "¡Has hackeado el sistema! Serás redirigido en breve."
+                }
+            }
+        }
+    };
+
+    function getCurrentDirectory() {
+        let currentDirectory = directories;
+        for (let dir of currentPath) {
+            currentDirectory = currentDirectory[dir];
+        }
+        return currentDirectory;
+    }
+
+    function executeCommand(command) {
+        const args = command.split(" ");
+        const cmd = args[0];
+        const param = args.slice(1).join(" ");
+        const currentDirectory = getCurrentDirectory();
+
+        if (gameWon) return "¡Ya has ganado! Reinicia para volver a jugar.";
+
+        switch (cmd) {
+            case "dir":
+                const items = Object.keys(currentDirectory);
+                return items.length === 0 ? "El directorio está vacío." : items.join("\n");
+
+            case "cd":
+                if (param === "" || param === "\\") {
+                    currentPath = ["L33tL1ght"]; // Regresar a la raíz
+                } else if (param === "..") {
+                    if (currentPath.length > 1) currentPath.pop();
+                } else if (currentDirectory[param]) {
+                    if (typeof currentDirectory[param] === "object") {
+                        currentPath.push(param);
+                    } else {
+                        return "No es un directorio.";
+                    }
+                } else {
+                    return "El directorio no existe.";
+                }
+                return `C:\\${currentPath.join("\\")}>`;
+
+            case "type":
+                if (currentDirectory[param]) {
+                    if (typeof currentDirectory[param] === "string") {
+                        if (param === "clave_secreta.txt") {
+                            gameWon = true;
+                            redirectUser();
+                            return currentDirectory[param];
+                        }
+                        return currentDirectory[param];
+                    } else {
+                        return "No se puede leer el contenido de un directorio.";
+                    }
+                }
+                return "El archivo no existe.";
+
+            case "cls":
+                return "clear";
+
+            default:
+                return "Comando no reconocido.";
+        }
+    }
+
+    function redirectUser() {
+        setTimeout(() => {
+            window.location.href = "https://github.com/K4SS4NDR4SS-LIGHT/XV533-x-33a007254687PjU-44/blob/main/key-1.rar";
+        }, 5000);
+    }
+
+    function updateOutput(message) {
+        const outputElement = document.getElementById("output");
+        const newMessage = document.createElement("div");
+        newMessage.textContent = message;
+        outputElement.appendChild(newMessage);
+    }
+
+    document.getElementById("commandForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const commandInput = document.getElementById("commandInput");
+        const command = commandInput.value.trim();
+
+        const result = executeCommand(command);
+        if (result === "clear") {
+            document.getElementById("output").innerHTML = "";
+        } else {
+            updateOutput(result);
+        }
+
+        commandInput.value = ""; // Limpiar el campo de entrada
+    });
+
+    document.getElementById("output").innerHTML = `C:\\${currentPath.join("\\")}>`;
+</script>
+</body>
+</html>
