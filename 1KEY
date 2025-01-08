@@ -1,1 +1,45 @@
+Reglas del Juego: Hackeo del Sistema
+Bienvenido al laberinto digital. Tu misión: encontrar la clave secreta escondida entre los archivos. Cada comando es una llave, cada directorio un enigma, y cada archivo una pista... o una trampa. ¿Podrás descifrar el sistema?
+
+1. El Entorno del Juego
+Te encuentras en un sistema llamado L33tL1ght.
+Dentro, hay dos rutas principales:
+Sistema: Un lugar donde los archivos guardan secretos y distracciones.
+Usuarios: El territorio donde los verdaderos tesoros pueden estar ocultos.
+2. Comandos Disponibles
+Estas son las herramientas para navegar por el sistema. Úsalas con sabiduría.
+
+dir: Muestra los archivos y directorios disponibles en tu ubicación actual.
+
+Ejemplo: dir te revelará los tesoros escondidos en tu camino.
+cd <directorio>: Cambia tu posición al directorio especificado.
+
+Ejemplo: cd Sistema te llevará a explorar las entrañas del sistema.
+Atajos:
+cd \ regresa a la raíz del sistema.
+cd .. te lleva al directorio anterior.
+type <archivo>: Lee el contenido de un archivo.
+
+Ejemplo: type fichero_secreto.txt te permitirá acceder a su información.
+Algunos archivos guardan pistas cruciales; otros solo te harán perder el tiempo.
+cls: Limpia la terminal para que te concentres en lo que importa.
+
+3. El Camino a la Victoria
+Tu objetivo es encontrar el archivo clave_secreta.txt.
+
+La clave está escondida en un directorio inesperado.
+Su contenido te llevará a un enlace que desbloquea el final del juego.
+Cuidado con los archivos trampa y las pistas falsas. No todo lo que brilla es oro.
+
+4. Consejos del Juego
+Explora cada rincón, pero no pierdas demasiado tiempo en rutas vacías.
+Los archivos no siempre están donde esperarías; piensa como el sistema.
+El sistema responderá a cada comando que uses. Si el camino parece confuso, vuelve atrás y prueba otra dirección.
+Un Último Recordatorio
+El sistema tiene memoria, pero tú tienes intuición. Este es un juego de mentes. No solo se trata de encontrar el camino... sino de entenderlo.
+
+¿Estás listo para hackear el sistema?
+El teclado está en tus manos. La primera pista espera en Sistema.
+
+SI has llegado hasta aqui solo te resta descargar el archivo key-1.rar y ver su contenido.
 
